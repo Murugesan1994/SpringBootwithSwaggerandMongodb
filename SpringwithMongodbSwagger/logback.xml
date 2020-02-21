@@ -1,0 +1,41 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+<configuration>
+<property name="Log_Example" value= "logs"></property>
+   <appender name = "Console-Appender" class = "ch.qos.logback.core.ConsoleAppender">
+      <encoder>
+         <pattern>[%d{YYYY-MM-dd'T'HH:mm:ss.sss'Z'}] [%C] [%t] [%L] [%-5p] %m%n</pattern>
+      </encoder>
+   </appender>
+   
+   <appender name = "File-Appender" class = "ch.qos.logback.core.rolling.RollingFileAppender">
+   
+      <File>${Log_Example}/logback.log</File>
+      <encoder>
+         <pattern>[%d{YYYY-MM-dd'T'HH:mm:ss.sss'Z'}] [%C] [%t] [%L] [%-5p] %m%n</pattern>
+      </encoder>
+     <triggeringPolicy
+            class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>100KB</maxFileSize>
+        </triggeringPolicy>
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+      
+            <fileNamePattern>${Log_Example}/archived/logback%i.log</fileNamePattern>
+            <minIndex>1</minIndex>
+            <maxIndex>9</maxIndex>
+        </rollingPolicy>
+      
+   </appender>
+   <logger name="guru.springframework.blog.logbackxml"  level="INFO" additivity="false">
+        <appender-ref ref="Console-Appender" />
+        <appender-ref ref="File-Appender" />
+    </logger>
+    <logger name="guru.springframework.blog.logbackxml"  level="ERROR" additivity="false">
+        <appender-ref ref="Console-Appender" />
+        <appender-ref ref="File-Appender" />
+    </logger>
+   <root level = "DEBUG">
+      <appender-ref ref = "File-Appender"/>
+      <appender-ref ref = "Console-Appender"/> 
+   </root>
+</configuration>
